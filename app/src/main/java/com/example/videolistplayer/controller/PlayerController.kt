@@ -27,33 +27,49 @@ object PlayerController {
     @JvmStatic
     private var cache: SimpleCache? = null
 
+    /**
+     * Method to initialize simple exoPlayer instance and
+     * and set repeat mode to off.
+     * @return SimpleExoPlayer instance
+     */
     fun getSimpleExoPlayer(context: Context): SimpleExoPlayer {
 
         val simpleExoPlayer = SimpleExoPlayer.Builder(context).build()
 
-        simpleExoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT
         simpleExoPlayer.repeatMode = Player.REPEAT_MODE_OFF
         return simpleExoPlayer
     }
 
+    /**
+     * Method to inflate the player view with default ui controller.
+     * @return PlayerView instance
+     */
     fun getPlayerView(layoutInflater: LayoutInflater): PlayerView {
         val playerView = layoutInflater.inflate(R.layout.player_view, null) as PlayerView
         playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
         return playerView
     }
 
+    /**
+     * Method which takes input the list of video urls and
+     * prepares a concatenating media source list to be played by exoplayer.
+     *
+     * <p>
+     *     Wrapping defaultDataSourceFactory by CacheDataSourceFactory will
+     *     facilitate the caching of the media provided by the media source.
+     * </p>
+     *
+     * @param context
+     * @param urls
+     * @return concatenatingMediaSource
+     */
     fun getMediaSourceList(context: Context, urls: List<String>): ConcatenatingMediaSource {
 
         val concatenatingMediaSource = ConcatenatingMediaSource()
 
-
-        val defaultBandwidthMeter = DefaultBandwidthMeter.Builder(context)
-            .setInitialBitrateEstimate(C.NETWORK_TYPE_3G, (250 * 1000).toLong()).build()
-
         val dataSourceFactory = DefaultDataSourceFactory(
             context,
-            Util.getUserAgent(context, "VideoListPlayer"),
-            defaultBandwidthMeter
+            Util.getUserAgent(context, "VideoListPlayer")
         )
 
         val cacheDataSourceFactory = CacheDataSourceFactory(
@@ -73,6 +89,11 @@ object PlayerController {
         return concatenatingMediaSource
     }
 
+
+    /**
+     * Method to return directory where cached media data will be stored
+     * @return Cache instance
+     */
     private fun getCache(context: Context): Cache {
 
         if(cache == null){

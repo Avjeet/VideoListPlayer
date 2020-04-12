@@ -37,9 +37,9 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
 
     /**
      * Method to :
-     * - setup the exoplayer instance
+     * - setup the exoPlayer instance
      * - prepare the concatenatingMediaSource list of all the video urls
-     * - attach simpleExoplayer to player view
+     * - attach simpleExoPlayer to player view
      */
     private fun setupExoPlayer() {
         simpleExoPlayer = PlayerController.getSimpleExoPlayer(this).apply {
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
      * <p>
      *     This method
      *     - removes the playerView from the previous child and add the playerView to the current child
-     *     - seek to current index in exoplayer
+     *     - seek to current index in exoPlayer
      *     - play the video
      *</p>
      */
@@ -87,7 +87,6 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
 
     override fun onDestroy() {
         super.onDestroy()
-
         simpleExoPlayer.release()
     }
 

@@ -18,10 +18,10 @@ class SnapOnScrollListener(
 
     /**
      * This method will be called after the scroll listener is added to recycler view
-     * with dx = 0 && dy==0.
+     * with dx = 0 && dy = 0.
      *
      * <p>
-     *     So, this method will facilitate the attaching
+     *     This method will facilitate the attaching
      *     of playerView in the first child of the recycler
      *     view by notifying recyclerView with position = 0
      *     as current snap position returned by getSnapPosition()
@@ -36,9 +36,9 @@ class SnapOnScrollListener(
     }
 
     /**
-     * Custom method which will call the new
-     * snapPosition is not equal to the initial snap position
-     * to avoid repeated to same child of recyclerView
+     * Custom method which will notify recycler view of child snap
+     * if the new snapPosition is not equal to the initial snapPosition
+     * to avoid repeated call to same child of recyclerView
      * @param recyclerView
      */
     private fun maybeNotifySnapPositionChange(recyclerView: RecyclerView) {
@@ -55,8 +55,8 @@ class SnapOnScrollListener(
 
     /**
      * @param recyclerView
-     * @return integer value of the currently visible child view
-     * of recycler view after being snapped to top
+     * @return position of currently visible
+     * child view of recycler view after snap
      */
     private fun SnapHelper.getSnapPosition(recyclerView: RecyclerView): Int {
         val layoutManager = recyclerView.layoutManager ?: return RecyclerView.NO_POSITION
