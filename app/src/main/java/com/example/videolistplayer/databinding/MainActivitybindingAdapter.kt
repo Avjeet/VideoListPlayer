@@ -21,6 +21,7 @@ fun RecyclerView.seturlList(urls: List<String>) {
     }
 }
 
+
 @BindingAdapter("snapHelper", "snapPositionChangeListener")
 fun RecyclerView.attachSnapHelperWithListener(
     snapHelper: SnapHelper,

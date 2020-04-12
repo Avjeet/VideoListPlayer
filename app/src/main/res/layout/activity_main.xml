@@ -13,7 +13,7 @@
 
         <variable
             name="snapOnPositionChangeListener"
-            type="com.example.videolistplayer.listeners.SnapOnScrollListener" />
+            type="com.example.videolistplayer.listeners.SnapOnScrollListener.OnSnapPositionChangeListener" />
 
         <variable
             name="snapHelper"

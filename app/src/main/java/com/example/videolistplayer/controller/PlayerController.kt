@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.database.DatabaseProvider
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.source.ConcatenatingMediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
@@ -26,16 +27,19 @@ object PlayerController {
     @JvmStatic
     private var cache: SimpleCache? = null
 
-    fun getExoplayerInstance(context: Context): SimpleExoPlayer {
+    fun getSimpleExoPlayer(context: Context): SimpleExoPlayer {
 
         val simpleExoPlayer = SimpleExoPlayer.Builder(context).build()
 
+        simpleExoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT
         simpleExoPlayer.repeatMode = Player.REPEAT_MODE_OFF
         return simpleExoPlayer
     }
 
     fun getPlayerView(layoutInflater: LayoutInflater): PlayerView {
-        return layoutInflater.inflate(R.layout.player_view, null) as PlayerView
+        val playerView = layoutInflater.inflate(R.layout.player_view, null) as PlayerView
+        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+        return playerView
     }
 
     fun getMediaSourceList(context: Context, urls: List<String>): ConcatenatingMediaSource {
@@ -69,7 +73,7 @@ object PlayerController {
         return concatenatingMediaSource
     }
 
-    fun getCache(context: Context): Cache {
+    private fun getCache(context: Context): Cache {
 
         if(cache == null){
             val cacheDirectory = File(context.externalCacheDir, "downloads")

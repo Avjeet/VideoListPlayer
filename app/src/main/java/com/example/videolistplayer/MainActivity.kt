@@ -9,11 +9,13 @@ import com.example.videolistplayer.adapters.VideoListAdapter
 import com.example.videolistplayer.controller.PlayerController
 import com.example.videolistplayer.databinding.ActivityMainBinding
 import com.example.videolistplayer.listeners.SnapOnScrollListener
+import com.example.videolistplayer.listeners.VideoPlayerListener
 import com.example.videolistplayer.models.VideoRepo
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.ui.PlayerView
 
-class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionChangeListener {
+class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionChangeListener,
+    VideoPlayerListener.OnNextVideoPlayListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var simpleExoPlayer: SimpleExoPlayer
@@ -32,10 +34,16 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
         }
     }
 
+    /**
+     * Method to :
+     * - setup the exoplayer instance
+     * - prepare the concatenatingMediaSource list of all the video urls
+     * - attach simpleExoplayer to player view
+     */
     private fun setupExoPlayer() {
-        simpleExoPlayer = PlayerController.getExoplayerInstance(this).apply {
+        simpleExoPlayer = PlayerController.getSimpleExoPlayer(this).apply {
             prepare(PlayerController.getMediaSourceList(this@MainActivity, VideoRepo.URLS))
-            addListener()
+            addListener(VideoPlayerListener(this@MainActivity))
         }
 
         playerView = PlayerController.getPlayerView(layoutInflater).apply {
@@ -43,6 +51,16 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
         }
     }
 
+
+    /**
+     * Overriden method of SnapOnScrollListener class
+     * which will be called whenever the snap position.
+     *
+     * <p>
+     *     This function removes the playerView from the previous child
+     *     and add the playerView to the current child.
+     *</p>
+     */
     override fun onSnapPositionChange(position: Int, viewHolder: VideoListAdapter.MyViewHolder) {
 
         simpleExoPlayer.playWhenReady = false
@@ -60,9 +78,14 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
 
     }
 
+    override fun onNextVideoPlay() {
+        binding.recyclerView.smoothScrollToPosition(simpleExoPlayer.currentWindowIndex)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
 
         simpleExoPlayer.release()
     }
+
 }
