@@ -36,7 +36,7 @@ class SnapOnScrollListener(
     }
 
     /**
-     * Custom method which will will call the new
+     * Custom method which will call the new
      * snapPosition is not equal to the initial snap position
      * to avoid repeated to same child of recyclerView
      * @param recyclerView
