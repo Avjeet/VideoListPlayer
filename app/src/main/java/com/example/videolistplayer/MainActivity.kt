@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.videolistplayer.adapters.VideoListAdapter
 import com.example.videolistplayer.controller.PlayerController
 import com.example.videolistplayer.databinding.ActivityMainBinding
@@ -29,7 +30,7 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
 
         with(binding){
             urls =  VideoRepo.URLS
-            snapHelper = LinearSnapHelper()
+            snapHelper = PagerSnapHelper()
             snapOnPositionChangeListener = this@MainActivity
         }
     }
@@ -53,12 +54,14 @@ class MainActivity : AppCompatActivity(), SnapOnScrollListener.OnSnapPositionCha
 
 
     /**
-     * Overriden method of SnapOnScrollListener class
+     * Overridden method of SnapOnScrollListener class
      * which will be called whenever the snap position.
      *
      * <p>
-     *     This function removes the playerView from the previous child
-     *     and add the playerView to the current child.
+     *     This method
+     *     - removes the playerView from the previous child and add the playerView to the current child
+     *     - seek to current index in exoplayer
+     *     - play the video
      *</p>
      */
     override fun onSnapPositionChange(position: Int, viewHolder: VideoListAdapter.MyViewHolder) {

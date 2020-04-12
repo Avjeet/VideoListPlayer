@@ -38,7 +38,7 @@ object PlayerController {
 
     fun getPlayerView(layoutInflater: LayoutInflater): PlayerView {
         val playerView = layoutInflater.inflate(R.layout.player_view, null) as PlayerView
-        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIT
+        playerView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
         return playerView
     }
 

@@ -16,6 +16,18 @@ class SnapOnScrollListener(
         maybeNotifySnapPositionChange(recyclerView)
     }
 
+    /**
+     * This method will be called after the scroll listener is added to recycler view
+     * with dx = 0 && dy==0.
+     *
+     * <p>
+     *     So, this method will facilitate the attaching
+     *     of playerView in the first child of the recycler
+     *     view by notifying recyclerView with position = 0
+     *     as current snap position returned by getSnapPosition()
+     *     will be equal to 0.
+     * </p>
+     */
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         if(dx==0 && dy ==0){
@@ -41,6 +53,11 @@ class SnapOnScrollListener(
         }
     }
 
+    /**
+     * @param recyclerView
+     * @return integer value of the currently visible child view
+     * of recycler view after being snapped to top
+     */
     private fun SnapHelper.getSnapPosition(recyclerView: RecyclerView): Int {
         val layoutManager = recyclerView.layoutManager ?: return RecyclerView.NO_POSITION
         val snapView = findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
